@@ -1,4 +1,7 @@
-package br.com.alura.strategy;
+package br.com.alura.strategy.impostos;
+
+import br.com.alura.strategy.Orcamento;
+import br.com.alura.strategy.interfaces.Imposto;
 
 public class ISS implements Imposto {
 
