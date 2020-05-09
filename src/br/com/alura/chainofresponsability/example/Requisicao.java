@@ -1,5 +1,7 @@
 package br.com.alura.chainofresponsability.example;
 
+import br.com.alura.enums.FormatoEnum;
+
 public class Requisicao {
 	
 	private FormatoEnum formato;

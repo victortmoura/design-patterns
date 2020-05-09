@@ -1,5 +1,8 @@
 package br.com.alura.tests;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.alura.CalculadorDeDescontos;
 import br.com.alura.CalculadorDeImpostos;
 import br.com.alura.Conta;
@@ -7,14 +10,18 @@ import br.com.alura.Item;
 import br.com.alura.Orcamento;
 import br.com.alura.RealizadorDeInvestimentos;
 import br.com.alura.chainofresponsability.example.AplicarSolicitacao;
-import br.com.alura.chainofresponsability.example.FormatoEnum;
 import br.com.alura.chainofresponsability.example.Requisicao;
+import br.com.alura.enums.FormatoEnum;
 import br.com.alura.impostos.ICCC;
 import br.com.alura.impostos.ICMS;
+import br.com.alura.impostos.ICPP;
+import br.com.alura.impostos.IKCV;
 import br.com.alura.impostos.ISS;
 import br.com.alura.interfaces.Imposto;
 import br.com.alura.interfaces.Investimento;
 import br.com.alura.investidores.Conservador;
+import br.com.alura.relatorios.RelatorioComplexo;
+import br.com.alura.relatorios.RelatorioSimples;
 
 public class Teste {
 
@@ -26,6 +33,10 @@ public class Teste {
 		testeChainOfRespXML();
 		testeChainOfRespCSV();
 		testeChainOfRespPORCENTO();
+		testeTemplateMethodICPP();
+		testeTemplateMethodIKCV();
+		testaRelatorioSimples();
+		testaRelatorioComplexo();
 	}
 
 	public static void testeOrcamento() {
@@ -126,5 +137,61 @@ public class Teste {
 		System.out.println(contaFormatada);
 		System.out.println();
 	}
+
+	private static void testeTemplateMethodICPP() {
+		System.out.println("TESTE TemplateMethod ICPP");
+		ICPP icpp = new ICPP();
+		Orcamento orcamento = new Orcamento(600);
+		
+		CalculadorDeImpostos calculadorImpostos = new CalculadorDeImpostos();
+		calculadorImpostos.realizaCalculo(orcamento, icpp);
+		
+		System.out.println();
+	}
+	
+	private static void testeTemplateMethodIKCV() {
+		System.out.println("TESTE TemplateMethod IKCV");
+		IKCV ikcv = new IKCV();
+		Orcamento orcamento = new Orcamento(1000);
+		orcamento.adicionaItem(new Item("PNEU", 250));
+		
+		CalculadorDeImpostos calculadorImpostos = new CalculadorDeImpostos();
+		calculadorImpostos.realizaCalculo(orcamento, ikcv);
+		
+		System.out.println();
+	}
+	
+	private static void testaRelatorioSimples() {
+		System.out.println("RELATÓRIO SIMPLES");
+		RelatorioSimples relatorioSimples = new RelatorioSimples();
+		List<Conta> contas = new ArrayList<>();
+		Conta conta = new Conta("Victor Moura", "1835-X", 515141, 100);
+		Conta conta2 = new Conta("Thalita Moura", "4458-6", 66584, 900);
+		Conta conta3 = new Conta("Waleska Moura", "5584-1", 22105, 3000);
+		
+		contas.add(conta);
+		contas.add(conta2);
+		contas.add(conta3);
+		
+		relatorioSimples.imprime(contas);
+		System.out.println();
+	}
+	private static void testaRelatorioComplexo() {
+		System.out.println("RELATÓRIO COMPLEXO");
+		RelatorioComplexo relatorioComplexo = new RelatorioComplexo();
+		
+		List<Conta> contas = new ArrayList<>();
+		Conta conta = new Conta("Victor Moura", "1835-X", 515141, 100);
+		Conta conta2 = new Conta("Thalita Moura", "4458-6", 66584, 900);
+		Conta conta3 = new Conta("Waleska Moura", "5584-1", 22105, 3000);
+		
+		contas.add(conta);
+		contas.add(conta2);
+		contas.add(conta3);
+		
+		relatorioComplexo.imprime(contas);
+		System.out.println();
+	}
+
 
 }

@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import br.com.alura.Conta;
+import br.com.alura.enums.FormatoEnum;
 import br.com.alura.interfaces.Formato;
 
 public class XML implements Formato {

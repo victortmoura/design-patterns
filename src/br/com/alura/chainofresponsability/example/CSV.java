@@ -1,6 +1,7 @@
 package br.com.alura.chainofresponsability.example;
 
 import br.com.alura.Conta;
+import br.com.alura.enums.FormatoEnum;
 import br.com.alura.interfaces.Formato;
 
 public class CSV implements Formato {

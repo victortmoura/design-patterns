@@ -8,7 +8,7 @@ public class AplicarSolicitacao {
 	public String aplica(Requisicao requisicao, Conta conta) {
 		Formato xml = new XML();
 		Formato csv = new CSV();
-		Formato porcento = new PORCENTO();
+		Formato porcento = new Porcento();
 		Formato semFormato = new SemFormato();
 		
 		xml.setProximo(csv);

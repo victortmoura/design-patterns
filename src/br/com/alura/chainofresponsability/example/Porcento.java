@@ -1,9 +1,10 @@
 package br.com.alura.chainofresponsability.example;
 
 import br.com.alura.Conta;
+import br.com.alura.enums.FormatoEnum;
 import br.com.alura.interfaces.Formato;
 
-public class PORCENTO implements Formato {
+public class Porcento implements Formato {
 
 	private Formato proximo;
 
