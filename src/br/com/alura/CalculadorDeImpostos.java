@@ -1,6 +1,6 @@
 package br.com.alura;
 
-import br.com.alura.interfaces.Imposto;
+import br.com.alura.impostos.Imposto;
 
 public class CalculadorDeImpostos {
 

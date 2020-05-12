@@ -1,11 +1,16 @@
 package br.com.alura.impostos;
 
 import br.com.alura.Orcamento;
-import br.com.alura.interfaces.Imposto;
 
-public abstract class TemplateDeImpostoCondicional implements Imposto {
+public abstract class TemplateAbstractDeImpostoCondicional extends Imposto {
 
 	
+	public TemplateAbstractDeImpostoCondicional(Imposto outroImposto) {
+		super(outroImposto);
+	}
+	
+	public TemplateAbstractDeImpostoCondicional() {}
+
 	/**
 	 * Ao adicionar o modificador de acesso: final, garantimos
 	 * que todas as classes filhas dessa classe pai nao consigam

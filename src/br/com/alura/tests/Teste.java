@@ -12,12 +12,16 @@ import br.com.alura.RealizadorDeInvestimentos;
 import br.com.alura.chainofresponsability.example.AplicarSolicitacao;
 import br.com.alura.chainofresponsability.example.Requisicao;
 import br.com.alura.enums.FormatoEnum;
+import br.com.alura.filtros.Filtro;
+import br.com.alura.filtros.FiltroMaiorQue500MilReais;
+import br.com.alura.filtros.FiltroMenorQue100Reais;
 import br.com.alura.impostos.ICCC;
 import br.com.alura.impostos.ICMS;
 import br.com.alura.impostos.ICPP;
 import br.com.alura.impostos.IKCV;
 import br.com.alura.impostos.ISS;
-import br.com.alura.interfaces.Imposto;
+import br.com.alura.impostos.Imposto;
+import br.com.alura.impostos.ImpostoMuitoAlto;
 import br.com.alura.interfaces.Investimento;
 import br.com.alura.investidores.Conservador;
 import br.com.alura.relatorios.RelatorioComplexo;
@@ -37,6 +41,10 @@ public class Teste {
 		testeTemplateMethodIKCV();
 		testaRelatorioSimples();
 		testaRelatorioComplexo();
+		testeImpostosCompostos();
+		testeImpostosMuitoAlto();
+		testeFiltroConta();
+		testesDoDescontoExtra();
 	}
 
 	public static void testeOrcamento() {
@@ -193,5 +201,72 @@ public class Teste {
 		System.out.println();
 	}
 
+	private static void testeImpostosCompostos() {
+		System.out.println("IMPOSTOS COMPOSTOS");
+		Orcamento orcamento = new Orcamento(1000);
+		Imposto icmsComIss = new ICMS(new ISS());
+		
+		CalculadorDeImpostos calculadorDeImpostos = new CalculadorDeImpostos();
+		calculadorDeImpostos.realizaCalculo(orcamento, icmsComIss);
+		
+		System.out.println();
+	}
+	
+	private static void testeImpostosMuitoAlto() {
+		System.out.println("IMPOSTO MUITO ALTO");
+		Orcamento orcamento = new Orcamento(500);
+		Imposto impostoMuitoAlto = new ImpostoMuitoAlto(new ICMS());
+		
+		CalculadorDeImpostos calculadorDeImpostos = new CalculadorDeImpostos();
+		calculadorDeImpostos.realizaCalculo(orcamento, impostoMuitoAlto);
+		
+		System.out.println();
+	}
+	
+	private static void testeFiltroConta() {
+		System.out.println("FILTRO CONTA");
+		Conta conta1 = new Conta(50, "A");
+		Conta conta2 = new Conta(150, "B");
+		Conta conta3 = new Conta(360, "C");
+		Conta conta4 = new Conta(500, "D");
+		Conta conta5 = new Conta(850000, "E");
+		List<Conta> contas = new ArrayList<Conta>();
+		
+		contas.add(conta1);
+		contas.add(conta2);
+		contas.add(conta3);
+		contas.add(conta4);
+		contas.add(conta5);
+		
+		// FILTRO COMPOSTO POR OUTRO FILTRO
+		
+		Filtro filtroComposto = new FiltroMenorQue100Reais(new FiltroMaiorQue500MilReais());
+		List<Conta> contasFiltradas = filtroComposto.filtra(contas);
+		
+		for (Conta c : contasFiltradas) {
+			System.out.println(c.getNomeTitular() +" "+ c.getSaldo());
+		}
+		
+		System.out.println();
+	}
+	
+	private static void testesDoDescontoExtra() {
+		System.out.println("FILTRO CONTA");
+		Orcamento reforma = new Orcamento(500.0);
+		reforma.aplicaDescontoExtra();
+		
+		System.out.println(reforma.getValor()); // imprime 475,00 pois descontou 5%
+        reforma.aprova(); // aprova nota!
+
+        reforma.aplicaDescontoExtra();
+        System.out.println(reforma.getValor()); // imprime 465,50 pois descontou 2%
+
+        reforma.finaliza();
+
+        // reforma.aplicaDescontoExtra(); lancaria excecao, pois não pode dar desconto nesse estado
+        // reforma.aprova(); lança exceção, pois não pode ir para aprovado
+		
+		System.out.println();
+	}
 
 }
